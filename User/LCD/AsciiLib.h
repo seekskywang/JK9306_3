@@ -7,7 +7,7 @@
 extern const unsigned char _C[][40];
 extern const unsigned char _p[][40];
 extern const unsigned char TAB_num[][32];
-extern const unsigned char MainData_num[][32];
+extern const unsigned char MainData_num[][16];
 extern const unsigned char Out_Assic[][40];
 extern const unsigned char nAsciiDotBig[];
 extern unsigned char nAsciiDot20X40E[];

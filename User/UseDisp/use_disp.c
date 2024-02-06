@@ -344,7 +344,7 @@ void Draw_LIN5(uint8_t x,uint8_t y,uint16_t len,uint32_t color)
 	LCD_DrawLine(x,y+1,x+len,y+1,color);
 	
 }
-void Draw_LIN3_Y(uint8_t x,uint8_t y,uint16_t len,uint32_t color)
+void Draw_LIN3_Y(uint16_t x,uint16_t y,uint16_t len,uint32_t color)
 {	
 //	LCD_DrawLine(x,y,x+len,y,color);	//
 	LCD_DrawLine(x,y,x,y+len,color);
@@ -1157,7 +1157,7 @@ const char CHNAME[][5]=
 {
 	{"CH1"},
 	{"CH2"},
-
+	{"CH3"},
 
 };
 

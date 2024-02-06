@@ -31,9 +31,11 @@ typedef struct Data{
 	int16_t Pq[3];       		  //无功功率
   int16_t Pf[3];       			//功率因数
 	int32_t PaSum;						//总有功功率
-	int32_t Q;								//总无功功率
+	int32_t QSum;								//总无功功率
 	int32_t PfAvg;       			//平均功率因数
 	uint32_t Power[3];       	//视在功率
+	uint32_t Wp[2];							//有功电度
+	uint32_t Wq[2];							//无功电度
   uint32_t SFreq[3];     				//频率
 	uint32_t W[3];     				//频率
 	int8_t polarity[3];       	//功率因数正负值
@@ -690,7 +692,7 @@ void RecHandle(void)
 	for(i=0;i<3;i++)//电压
 	{
 		Disp.Voltage[i] = ((ComBuf.rec.buf[VFRAME+i*2]<<8) + 
-		ComBuf.rec.buf[VFRAME+1+i*2])*3;
+		ComBuf.rec.buf[VFRAME+1+i*2])*4;
 	}
 	for(i=0;i<3;i++)//电流
 	{
@@ -705,13 +707,15 @@ void RecHandle(void)
 		{
 			Disp.Pa[i] = -Disp.Pa[i];
 		}
-		Disp.Pa[i] *= 6;
+		Disp.Pa[i] *= 8;
 	}
 	for(i=0;i<3;i++)//视在功率
 	{
 		Disp.Power[i] = ((ComBuf.rec.buf[PFRAME+i*2]<<8) +
-		ComBuf.rec.buf[PFRAME+1+i*2])*6;
+		ComBuf.rec.buf[PFRAME+1+i*2])*8;
 	}
+	
+	
 	
 	for(i=0;i<3;i++)//功率因数
 	{
@@ -726,6 +730,46 @@ void RecHandle(void)
 		}
 	}
 	
+	//总有功功率
+	Disp.PaSum = ((ComBuf.rec.buf[PASUMFRAME]<<8) +
+		ComBuf.rec.buf[PASUMFRAME+1])*8;
+	
+	//总无功功率
+	Disp.QSum = ((ComBuf.rec.buf[QSUMFRAME]<<8) +
+		ComBuf.rec.buf[QSUMFRAME+1])*8;
+	
+	//三相平均功率因数
+	Disp.PfAvg = ((ComBuf.rec.buf[PAVFRAME]<<8) +
+		ComBuf.rec.buf[QSUMFRAME+1]);
+	
+	//频率
+	Disp.Freq = ((ComBuf.rec.buf[FFRAME]<<8) +
+		ComBuf.rec.buf[FFRAME+1]);
+	
+	//正向有功电度
+	Disp.Wp[0] = (int32_t)((double)((ComBuf.rec.buf[WP1RAME]<<24) + 
+		(ComBuf.rec.buf[WP1RAME+1]<<16)+
+		(ComBuf.rec.buf[WP1RAME+2]<<8)+
+		ComBuf.rec.buf[WP1RAME+3]));
+	
+	//正向无功电度
+	Disp.Wq[0] = (int32_t)((double)((ComBuf.rec.buf[WQ1RAME]<<24) + 
+		(ComBuf.rec.buf[WQ1RAME+1]<<16)+
+		(ComBuf.rec.buf[WQ1RAME+2]<<8)+
+		ComBuf.rec.buf[WQ1RAME+3]));
+	
+	//反向有功电度
+	Disp.Wp[1] = (int32_t)((double)((ComBuf.rec.buf[WP2RAME]<<24) + 
+		(ComBuf.rec.buf[WP2RAME+1]<<16)+
+		(ComBuf.rec.buf[WP2RAME+2]<<8)+
+		ComBuf.rec.buf[WP2RAME+3]));
+	
+	//反向无功电度
+	Disp.Wq[1] = (int32_t)((double)((ComBuf.rec.buf[WQ2RAME]<<24) + 
+		(ComBuf.rec.buf[WQ2RAME+1]<<16)+
+		(ComBuf.rec.buf[WQ2RAME+2]<<8)+
+		ComBuf.rec.buf[WQ2RAME+3]));
+	
 	for(i=0;i<3;i++)//无功功率
 	{
 		Disp.Pq[i] = ((ComBuf.rec.buf[QFRAME+i*2]<<8) + 
@@ -735,23 +779,23 @@ void RecHandle(void)
 		{
 			Disp.Pq[i] = -Disp.Pq[i];
 		}
-		Disp.Pq[i] *= 6;
+		Disp.Pq[i] *= 8;
 	}
 	
-	for(i=0;i<3;i++)//频率
-	{
-//		Disp.Voltage[i] = (uint32_t)((double)((ComBuf.rec.buf[3+i*2]<<8) + 
-//			ComBuf.rec.buf[4+i*2]) * 3);
-		Disp.SFreq[i] = (ComBuf.rec.buf[FSFRAME+i*2]<<8) +
-		ComBuf.rec.buf[FSFRAME+1+i*2];
-	}
-	for(i=0;i<3;i++)//有功电度
-	{
-		Disp.W[i] = (int32_t)((double)((ComBuf.rec.buf[WFRAME+i*4]<<24) + 
-		(ComBuf.rec.buf[WFRAME+1+i*4]<<16)+
-		(ComBuf.rec.buf[WFRAME+2+i*4]<<8)+
-		ComBuf.rec.buf[WFRAME+3+i*4])*300*20/3600);
-	}
+//	for(i=0;i<3;i++)//频率
+//	{
+////		Disp.Voltage[i] = (uint32_t)((double)((ComBuf.rec.buf[3+i*2]<<8) + 
+////			ComBuf.rec.buf[4+i*2]) * 3);
+//		Disp.SFreq[i] = (ComBuf.rec.buf[FSFRAME+i*2]<<8) +
+//		ComBuf.rec.buf[FSFRAME+1+i*2];
+//	}
+//	for(i=0;i<3;i++)//有功电度
+//	{
+//		Disp.W[i] = (int32_t)((double)((ComBuf.rec.buf[WFRAME+i*4]<<24) + 
+//		(ComBuf.rec.buf[WFRAME+1+i*4]<<16)+
+//		(ComBuf.rec.buf[WFRAME+2+i*4]<<8)+
+//		ComBuf.rec.buf[WFRAME+3+i*4])*300*20/3600);
+//	}
 //	Disp.Current = (ComBuf.rec.buf[5]<<8) + ComBuf.rec.buf[6];//10A
 //	Disp.Pa = ((ComBuf.rec.buf[7]<<8) + ComBuf.rec.buf[8])*25;//10A
 //	Disp.Power =((ComBuf.rec.buf[31]<<8) + ComBuf.rec.buf[32])*25;//10A
@@ -847,6 +891,12 @@ void Disp_R(uint8_t para)
 		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET,MAINUNIT1Y,24,34,
 		(uint8_t*)nAsciiDot20X40E+102*54);//V
 		
+		Hex_Format(Disp.Voltage[2],2,5,0);
+		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET*2,MAINDATA1Y,DispBuf);
+		
+		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET*2,MAINUNIT1Y,24,34,
+		(uint8_t*)nAsciiDot20X40E+102*54);//V
+		
 	//电流
 		Colour.Fword=Green;
 		Hex_Format(Disp.Current[0],3,5,0);
@@ -860,6 +910,13 @@ void Disp_R(uint8_t para)
 		MAINDATA1Y+MAINDATAYOFFSET,DispBuf);
 		
 		LCD_ShowFontCN_STR_40_55(MAINUNIT1X+MAINDATAXOFFSET,
+		MAINUNIT1Y+MAINDATAYOFFSET,24,34,(uint8_t*)"A",2);//A
+		
+		Hex_Format(Disp.Current[2],3,5,0);
+		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET*2,
+		MAINDATA1Y+MAINDATAYOFFSET,DispBuf);
+		
+		LCD_ShowFontCN_STR_40_55(MAINUNIT1X+MAINDATAXOFFSET*2,
 		MAINUNIT1Y+MAINDATAYOFFSET,24,34,(uint8_t*)"A",2);//A
 		
 	//有功功率
@@ -878,6 +935,14 @@ void Disp_R(uint8_t para)
 		MAINUNIT1Y+MAINDATAYOFFSET*2,24,34,
 		(uint8_t*)nAsciiDot20X40E+102*55);//W
 		
+		Hex_Format(Disp.Pa[2],1,5,0);
+		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET*2,
+		MAINDATA1Y+MAINDATAYOFFSET*2,DispBuf);
+		
+		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET*2+24,
+		MAINUNIT1Y+MAINDATAYOFFSET*2,24,34,
+		(uint8_t*)nAsciiDot20X40E+102*55);//W
+		
 	//功率因数
 		Colour.Fword=LCD_COLOR_MAGENTA;
 		Hex_Format(Disp.Pf[0],4,5,0);
@@ -887,9 +952,13 @@ void Disp_R(uint8_t para)
 		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET,
 		MAINDATA1Y+MAINDATAYOFFSET*3,DispBuf);
 		
+		Hex_Format(Disp.Pf[2],4,5,0);
+		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET*2,
+		MAINDATA1Y+MAINDATAYOFFSET*3,DispBuf);
+		
 	//频率
 		Colour.Fword=FCOLOR;
-		Hex_Format(Disp.SFreq[0],2,4,0);
+		Hex_Format(Disp.Freq,2,4,0);
 		WriteString_Big(MAINDATA1X,MAINDATA1Y+MAINDATAYOFFSET*4,DispBuf);
 		
 		LCD_ShowFontCN_40_55(MAINUNIT1X,MAINUNIT1Y+MAINDATAYOFFSET*4,
@@ -897,7 +966,7 @@ void Disp_R(uint8_t para)
 		LCD_ShowFontCN_40_55(MAINUNIT1X+24,MAINUNIT1Y+MAINDATAYOFFSET*4,
 		24,34,(uint8_t*)nAsciiDot20X40E+102*90);//z
 
-		Hex_Format(Disp.SFreq[1],2,4,0);
+		Hex_Format(Disp.Freq,2,4,0);
 		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET,
 		MAINDATA1Y+MAINDATAYOFFSET*4,DispBuf);
 		
@@ -905,6 +974,17 @@ void Disp_R(uint8_t para)
 		MAINUNIT1Y+MAINDATAYOFFSET*4,
 		24,34,(uint8_t*)nAsciiDot20X40E+102*40);//H
 		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET+24,
+		MAINUNIT1Y+MAINDATAYOFFSET*4,
+		24,34,(uint8_t*)nAsciiDot20X40E+102*90);//z
+		
+		Hex_Format(Disp.Freq,2,4,0);
+		WriteString_Big(MAINDATA1X+MAINDATAXOFFSET*2,
+		MAINDATA1Y+MAINDATAYOFFSET*4,DispBuf);
+		
+		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET*2,
+		MAINUNIT1Y+MAINDATAYOFFSET*4,
+		24,34,(uint8_t*)nAsciiDot20X40E+102*40);//H
+		LCD_ShowFontCN_40_55(MAINUNIT1X+MAINDATAXOFFSET*2+24,
 		MAINUNIT1Y+MAINDATAYOFFSET*4,
 		24,34,(uint8_t*)nAsciiDot20X40E+102*90);//z
 		
@@ -1474,40 +1554,35 @@ void Use_MainProcess(void)
 		//Key_Pro(key);
 			switch(key)
 			{
-				case KEY_Mid:
+				case KEY_Mid://截图版本截图
 				{
-					sprintf((char *)bmpname,"0:%0.6d.bmp",bmpnum);
-					Screen_shot(0,0,480,272,(const char *)bmpname);
-					bmpnum++;
-//					Send_Uart3(9);
+//					sprintf((char *)bmpname,"0:%0.6d.bmp",bmpnum);
+//					Screen_shot(0,0,480,272,(const char *)bmpname);
+//					bmpnum++;
 				}break;
 				case KEY_Trig:
 				{
 					setflag = 1;
-//					Send_Uart3(1);
-//					p = 1;
 				}break;
-				case KEY_File:
+				case KEY_File://截图版本初始化U盘
 				{
-					Host_Init();
-						//rc = Host_EnumDev();       /* Enumerate the device connected                                            */
-						do{
-							res=Host_EnumDev();
-							j++;
-			
-						}while(res!=0&&j<50);
-						if(res==0)
-							usb_oenflag=1;
-						else
-							usb_oenflag=0;
-						if(usb_oenflag)	
-						{
-							res=f_mount(0,&fs);
-							Host_DelayMS(20);
-							
-						}
-//					Send_Uart3(5);
-//					p = 5;
+//					Host_Init();
+//						//rc = Host_EnumDev();       /* Enumerate the device connected                                            */
+//						do{
+//							res=Host_EnumDev();
+//							j++;
+//			
+//						}while(res!=0&&j<50);
+//						if(res==0)
+//							usb_oenflag=1;
+//						else
+//							usb_oenflag=0;
+//						if(usb_oenflag)	
+//						{
+//							res=f_mount(0,&fs);
+//							Host_DelayMS(20);
+//							
+//						}
 				}break;
 				case KEY_Disp:
 //					if(BlankP++>IHzPnt)
@@ -2639,14 +2714,15 @@ void Disp_Main_set(void)
 	{
 		Colour.Fword=Red;
 		Colour.black=Black;
-		WriteString_16(120,4,CHNAME[0],0);
-		WriteString_16(241+119,4,CHNAME[1],0);
-		Draw_LIN5(1,74-49,475+3,Yellow);
-		Draw_LIN5(1,74,475+3,Green);
-		Draw_LIN5(1,123,475+3,PCOLOR);
-		Draw_LIN5(1,172,475+3,LCD_COLOR_MAGENTA);
-		Draw_LIN5(1,221,475+3,FCOLOR);
-		Draw_LIN3_Y(241,25,242,Yellow);
+		for(i=0;i<3;i++)
+			WriteString_16(CH1X+i*CHMARGIN,CH1Y,CHNAME[i],0);
+		Draw_LIN5(HLINEXS,HLINEY,HLINEXE,Yellow);
+		Draw_LIN5(HLINEXS,HLINEY+MARGINVER,HLINEXE,Green);
+		Draw_LIN5(HLINEXS,HLINEY+MARGINVER*2,HLINEXE,PCOLOR);
+		Draw_LIN5(HLINEXS,HLINEY+MARGINVER*3,HLINEXE,LCD_COLOR_MAGENTA);
+		Draw_LIN5(HLINEXS,HLINEY+MARGINVER*4,HLINEXE,FCOLOR);
+		Draw_LIN3_Y(MARGINHOR,HLINEY,272-HLINEY,Yellow);
+		Draw_LIN3_Y(MARGINHOR*2,HLINEY,272-HLINEY,Yellow);
 	}else{
 		Colour.Fword=Red;
 		WriteString_16(SUBDATA1X+4*18,SUBDATA1Y-20,CHNAME[0],0);

@@ -109,12 +109,12 @@
 //#define VRANGE		300		//µçÑ¹Á¿³Ì300V
 #define CRANGE		10		//µçÁ÷Á¿³Ì10mA
 
-#define MAINDATA1X				1		
-#define MAINDATA1Y				33		
-#define MAINUNIT1X				1+8*24		
-#define MAINUNIT1Y				36
-#define MAINDATAXOFFSET		244
-#define MAINDATAYOFFSET		49
+#define MAINDATA1X				10		
+#define MAINDATA1Y				56		
+#define MAINUNIT1X				10+6*16+5		
+#define MAINUNIT1Y				54
+#define MAINDATAXOFFSET		160
+#define MAINDATAYOFFSET		45
 
 #define SUBNAMEX						4	
 #define SUBNAMEY						50	
@@ -127,19 +127,39 @@
 #define SUBDATAXOFFSET		180
 #define SUBDATAYOFFSET		20
 
-#define SETPARAX					20
+#define SETPARAX					65
 #define SETPARAY		  		30
-#define SETPARAXOFFSET		230
+#define SETPARAXOFFSET		160
 #define SETPARAYOFFSET		28
+
+//Ö÷ÏÔÊ¾±í¸ñ
+#define HLINEXS					1
+#define HLINEXE					478
+#define HLINEY					50
+#define MARGINVER		  	45
+#define MARGINHOR				160
+#define CH1X						65
+#define CH1Y						28
+#define CHMARGIN				160
+
 //é€šè®¯å¸§å®šä¹‰
-#define VFRAME				3		
-#define CFRAME				3+2*3
-#define PAFRAME				3+2*7
-#define PFFRAME				3+2*10
-#define QFRAME				3+2*24
-#define PFRAME				3+2*27
-#define FSFRAME				3+2*36
-#define WFRAME				3+2*30
+#define VFRAME				3				//µçÑ¹
+#define CFRAME				3+2*3		//µçÁ÷
+#define PAFRAME				3+2*6		//ÓÐ¹¦¹¦ÂÊ
+#define PFFRAME				3+2*9 	//¹¦ÂÊÒòÊý
+#define PASUMFRAME		3+2*12 	//×ÜÓÐ¹¦¹¦ÂÊ
+#define QSUMFRAME			3+2*13 	//×ÜÎÞ¹¦¹¦ÂÊ
+#define PAVFRAME			3+2*14 	//ÈýÏàÆ½¾ù¹¦ÂÊÒòÊý
+#define FFRAME				3+2*15	//ÆµÂÊ
+#define WP1RAME				3+2*16	//ÕýÏòÓÐ¹¦µç¶È
+#define WQ1RAME				3+2*18	//ÕýÏòÎÞ¹¦µç¶È
+#define WP2RAME				3+2*20	//ÕýÏòÓÐ¹¦µç¶È
+#define WQ2RAME				3+2*22	//ÕýÏòÎÞ¹¦µç¶È
+#define QFRAME				3+2*24	//ÎÞ¹¦¹¦ÂÊ
+#define PFRAME				3+2*27	//µçÑ¹
+#define FSFRAME				3+2*36	//ÆµÂÊ
+#define WFRAME				3+2*30	//×ÜÊÓÔÚ¹¦ÂÊ
+
 typedef struct
 {
 	float first_value;

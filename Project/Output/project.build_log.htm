@@ -21,14 +21,79 @@ Target DLL:      Segger\JL2CM3.dll V2.99.42.0
 Dialog DLL:      TARMP1.DLL V1.27.1.0
  
 <h2>Project:</h2>
-H:\JK9306B\Project\project.uvprojx
+H:\JK9306_3\Project\project.uvprojx
 Project File Date:  07/20/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Open1788'
+compiling GlobalValue.c...
+compiling key.c...
+compiling TouchPanel.c...
+compiling use_disp.c...
+compiling set_manu.c...
+..\User\set_manu.c(33): warning:  #177-D: variable "BaudRate"  was declared but never referenced
+  static char BaudRate[8][7]=
+..\User\set_manu.c(44): warning:  #177-D: variable "Check"  was declared but never referenced
+  static char Check[4][4]=
+..\User\set_manu.c(63): warning:  #177-D: variable "IOMode_En"  was declared but never referenced
+  static char IOMode_En[2][7]=
+..\User\set_manu.c(74): warning:  #177-D: variable "USBMode_Ch"  was declared but never referenced
+  static char USBMode_Ch[2][8]=
+..\User\set_manu.c: 4 warnings, 0 errors
+compiling bsp_bmp.c...
+compiling lpc177x_8x_lcd.c...
+compiling test.c...
+..\User\Test\test.c(1068): warning:  #175-D: subscript out of range
+  if(t>20&&!Para_Set[13].val)GPIO_SetValue(0,1<<12);//beep on
+..\User\Test\test.c(839): warning:  #177-D: variable "buf"  was declared but never referenced
+  	char  buf[8]={"0"};
+..\User\Test\test.c(840): warning:  #177-D: variable "over"  was declared but never referenced
+  	char  over[7]={"       "};
+..\User\Test\test.c(842): warning:  #177-D: variable "i"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(842): warning:  #177-D: variable "potv"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(842): warning:  #177-D: variable "potvp"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(842): warning:  #177-D: variable "poti"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(842): warning:  #177-D: variable "potw"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(842): warning:  #177-D: variable "potva"  was declared but never referenced
+  	uint8_t i=0,potv,potvp,poti,potw,potva;
+..\User\Test\test.c(843): warning:  #177-D: variable "valp"  was declared but never referenced
+  	uint32_t valp,pfx;
+..\User\Test\test.c(843): warning:  #177-D: variable "pfx"  was declared but never referenced
+  	uint32_t valp,pfx;
+..\User\Test\test.c(1465): warning:  #177-D: variable "ci"  was declared but never referenced
+  	static uint8_t key,ci,p;
+..\User\Test\test.c(1466): warning:  #177-D: variable "j"  was declared but never referenced
+  	static uint16_t j;
+..\User\Test\test.c(1467): warning:  #550-D: variable "maxP"  was set but never used
+  	u8 maxP=Nub5cur;
+..\User\Test\test.c(1468): warning:  #550-D: variable "minP"  was set but never used
+  	u8 minP=Nub1cur;
+..\User\Test\test.c(1469): warning:  #550-D: variable "dotP"  was set but never used
+  	u8 dotP=Nub3cur;
+..\User\Test\test.c: 16 warnings, 0 errors
+compiling main.c...
+..\User\main.c(253): warning:  #177-D: variable "buff"  was declared but never referenced
+  char  buff[15]={0};
+..\User\main.c: 1 warning, 0 errors
+compiling debug_frmwrk.c...
+..\Libraries\Drivers\source\debug_frmwrk.c(978): warning:  #177-D: variable "Statu"  was declared but never referenced
+    uint8_t Statu,dat;
+..\Libraries\Drivers\source\debug_frmwrk.c(978): warning:  #550-D: variable "dat"  was set but never used
+    uint8_t Statu,dat;
+..\Libraries\Drivers\source\debug_frmwrk.c: 2 warnings, 0 errors
+compiling modbus_slave.c...
+compiling usbhost_lpc17xx.c...
+linking...
+Program Size: Code=36030 RO-data=12066 RW-data=11116 ZI-data=4684  
+FromELF: creating hex file...
 After Build - User command #1: C:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin  -o ..\shengji\update.bin Output\project.axf
-".\Output\project.axf" - 0 Error(s), 0 Warning(s).
+".\Output\project.axf" - 0 Error(s), 23 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -41,7 +106,7 @@ Package Vendor: Keil
   C:/Keil_v5/ARM/PACK/Keil/LPC1700_DFP/2.7.1/Device/Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

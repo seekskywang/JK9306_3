@@ -102,7 +102,7 @@ void Disp_UpOrLow_Limit_Word(void); //Button_Page_Typedef* Button_Page数值按键上
 void Num_Keyboard(void);	//Button_Page_Typedef* Button_Page数字按键界面
 void Manage_File(void);		//文件管理界面
 void Draw_LIN5(uint8_t x,uint8_t y,uint16_t len,uint32_t color);
-void Draw_LIN3_Y(uint8_t x,uint8_t y,uint16_t len,uint32_t color);
+void Draw_LIN3_Y(uint16_t x,uint16_t y,uint16_t len,uint32_t color);
 extern const char All_TopName_E[][20];	
 extern const char All_TopName[][20];
 extern const char DataTab[][20];

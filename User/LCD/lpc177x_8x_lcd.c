@@ -1453,10 +1453,10 @@ void WriteString_Big(uint16_t x0, uint16_t y0, const char *pcStr)
 			i=12;
 ////////////////////////////////////////////////////////////////////////////
 //					LCD_ShowFontCN_40_55(x0+usWidth,y0,32,35,(uint8_t*)(TAB_num)+i*140);	
-	LCD_ShowFontCN_40_55(x0+usWidth,y0,24,36,(uint8_t*)(MainData_num)+i*108);			
+	LCD_ShowFontCN_40_55(x0+usWidth,y0,16,32,(uint8_t*)(MainData_num)+i*64);			
 		/* ASCII码表21H的值对应区位码3区*/
 		pcStr += 1;
-		usWidth+=32;
+		usWidth+=16;
 	}
 }
 
