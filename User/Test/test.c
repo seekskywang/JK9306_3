@@ -992,15 +992,20 @@ void Disp_R(uint8_t para)
 	}else if(datapage == 1){
 		//有功电度
 		Colour.Fword=White;
-		Hex_Format(Disp.W[0],3,7,0);
+		Hex_Format(Disp.Wp[0],3,7,0);
 		WriteString_16(SUBDATA1X,SUBDATA1Y,
 		DispBuf,0);
 		WriteString_16(SUBUNIT1X,SUBUNIT1Y,
 		"kWh",0);
-		Hex_Format(Disp.W[1],3,7,0);
+		Hex_Format(Disp.Wp[0],3,7,0);
 		WriteString_16(SUBDATA1X+SUBDATAXOFFSET,SUBDATA1Y,
 		DispBuf,0);
 		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET,SUBUNIT1Y,
+		"kWh",0);
+		Hex_Format(Disp.Wp[0],3,7,0);
+		WriteString_16(SUBDATA1X+SUBDATAXOFFSET*2,SUBDATA1Y,
+		DispBuf,0);
+		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET*2,SUBUNIT1Y,
 		"kWh",0);
 		//视在功率
 		Hex_Format(Disp.Power[0],1,5,0);
@@ -1015,6 +1020,13 @@ void Disp_R(uint8_t para)
 		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET,
 		SUBUNIT1Y+SUBDATAYOFFSET,
 		"VA",0);
+		Hex_Format(Disp.Power[2],1,5,0);
+		WriteString_16(SUBDATA1X+SUBDATAXOFFSET*2,
+		SUBDATA1Y+SUBDATAYOFFSET,
+		DispBuf,0);
+		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET*2,
+		SUBUNIT1Y+SUBDATAYOFFSET,
+		"VA",0);
 		//无功功率
 		Hex_Format(Disp.Pq[0],1,5,0);
 		WriteString_16(SUBDATA1X,SUBDATA1Y+SUBDATAYOFFSET*2,
@@ -1026,6 +1038,13 @@ void Disp_R(uint8_t para)
 		SUBDATA1Y+SUBDATAYOFFSET*2,
 		DispBuf,0);
 		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET,
+		SUBUNIT1Y+SUBDATAYOFFSET*2,
+		"Var",0);
+		Hex_Format(Disp.Pq[2],1,5,0);
+		WriteString_16(SUBDATA1X+SUBDATAXOFFSET*2,
+		SUBDATA1Y+SUBDATAYOFFSET*2,
+		DispBuf,0);
+		WriteString_16(SUBUNIT1X+SUBDATAXOFFSET*2,
 		SUBUNIT1Y+SUBDATAYOFFSET*2,
 		"Var",0);
 	}
@@ -1452,12 +1471,11 @@ void Send_Uart3(u8 x)//(uint8_t *buff)
 
 void SetWZero(void)
 {
-	u8 setbuf[21]={0x01,0x10,0x00,0x1E,0x00,0x06,0x0C,0x00,0x00,
-								0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-							 ,0x00,0x00};
-	setbuf[19] = (u8)(CRC16_Modbus(setbuf,19)>>8);
-	setbuf[20] = (u8)(CRC16_Modbus(setbuf,19));
-	uartSendChars(LPC_UART0,setbuf,21);
+	u8 setbuf[13]={0x01,0x10,0x00,0x10,0x00,0x02,0x04,0x00,0x00,
+								0x00,0x00,0x00,0x00};
+	setbuf[11] = (u8)(CRC16_Modbus(setbuf,11)>>8);
+	setbuf[12] = (u8)(CRC16_Modbus(setbuf,11));
+	uartSendChars(LPC_UART0,setbuf,13);
 }
 
 void Use_MainProcess(void)
@@ -2725,8 +2743,9 @@ void Disp_Main_set(void)
 		Draw_LIN3_Y(MARGINHOR*2,HLINEY,272-HLINEY,Yellow);
 	}else{
 		Colour.Fword=Red;
-		WriteString_16(SUBDATA1X+4*18,SUBDATA1Y-20,CHNAME[0],0);
-		WriteString_16(SUBDATA1X+SUBDATAXOFFSET+4*18,SUBDATA1Y-20,CHNAME[1],0);
+		WriteString_16(SUBDATA1X+3*18,SUBDATA1Y-20,CHNAME[0],0);
+		WriteString_16(SUBDATA1X+SUBDATAXOFFSET+3*18,SUBDATA1Y-20,CHNAME[1],0);
+		WriteString_16(SUBDATA1X+SUBDATAXOFFSET*2+3*18,SUBDATA1Y-20,CHNAME[2],0);
 		Colour.Fword=White;
 		for(i=0;i<3;i++)
 		{

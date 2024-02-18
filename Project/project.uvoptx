@@ -120,6 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
+          <Name>PwHe?PwHe?</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -273,6 +274,11 @@
           <count>22</count>
           <WinNumber>1</WinNumber>
           <ItemText>dat</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Para_Set</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -736,7 +742,7 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>25</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Libraries\Drivers\source\lpc177x_8x_uart.c</PathWithFileName>

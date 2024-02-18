@@ -120,14 +120,14 @@
 #define SUBNAMEY						50	
 #define SUBNAMEOFFSET				20	
 
-#define SUBDATA1X					4+80		
+#define SUBDATA1X					4+80-60		
 #define SUBDATA1Y					50	
-#define SUBUNIT1X					4+80+20*6		
+#define SUBUNIT1X					4+80+20*6-60	
 #define SUBUNIT1Y					50
-#define SUBDATAXOFFSET		180
+#define SUBDATAXOFFSET		150
 #define SUBDATAYOFFSET		20
 
-#define SETPARAX					65
+#define SETPARAX					20
 #define SETPARAY		  		30
 #define SETPARAXOFFSET		160
 #define SETPARAYOFFSET		28
@@ -156,8 +156,8 @@
 #define WP2RAME				3+2*20	//正向有功电度
 #define WQ2RAME				3+2*22	//正向无功电度
 #define QFRAME				3+2*24	//无功功率
-#define PFRAME				3+2*27	//电压
-#define FSFRAME				3+2*36	//频率
+#define PFRAME				3+2*27	//视在功率
+//#define FSFRAME				3+2*36	//频率
 #define WFRAME				3+2*30	//总视在功率
 
 typedef struct

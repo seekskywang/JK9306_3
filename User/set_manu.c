@@ -444,16 +444,16 @@ void Disp_Sys_set(void)
 		WriteString_16(0,4,All_TopName[8],1);//жпнд
 		Colour.Fword=White;
 		Colour.black=LCD_COLOR_TEST_BACK;//Black;
-		Para_Set[0].row =20;
+//		Para_Set[0].row =20;
 		for(i=0;i<ParaNUM;i++)
-			 WriteString_16(Para_Set[i].row, Para_Set[i].col,(char *)Para_Set[i].Ch,1);
+			 WriteString_16(Para_Set[0].row, Para_Set[i].col,(char *)Para_Set[i].Ch,1);
 	}
 	else
 	{
 		WriteString_16(0,4,All_TopName_E[8],0);//с╒нд
 		Colour.Fword=White;
 		Colour.black=LCD_COLOR_TEST_BACK;//Black;
-		Para_Set[0].row =20;
+//		Para_Set[0].row =20;
 		for(i=0;i<ParaNUM;i++)
 			 WriteString_16(Para_Set[i].row, Para_Set[i].col,(char *)Para_Set[i].En,0);
 	}
